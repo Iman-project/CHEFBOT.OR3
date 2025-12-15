@@ -28,7 +28,7 @@ def verify_webhook():
     if mode == "subscribe" and token == verify_token:
         print("✅ Webhook verified!")
         return challenge, 200
-    
+
     print("❌ Webhook verification failed")
     return "Verification failed", 403
 
@@ -41,6 +41,6 @@ def webhook():
     handle_message(data)
     return jsonify({"status": "ok"}), 200
 
-if __name__ =="__main__":
-    port=int(os.getenv("PORT",5000))
-             app.run(debug=False,port=port,host='0.0.0.0')
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
