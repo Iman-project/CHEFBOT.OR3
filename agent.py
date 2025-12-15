@@ -1,6 +1,8 @@
 import requests
 import os
 from groq import Groq
+from dotenv import load_dotenv
+load_dotenv()
 
 # API Keys
 WHATSAPP_TOKEN = os.getenv("WHATSAPP_TOKEN")
@@ -8,7 +10,7 @@ PHONE_ID = os.getenv("WHATSAPP_PHONE_ID")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 # Initialize Groq client
-client = Groq(api_key='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')
+client = Groq(api_key=GROQ_API_KEY)
 
 def send_whatsapp_message(to, text):
     """Send message via WhatsApp Cloud API"""
