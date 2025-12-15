@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Your Restaurant - ChefBot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        
+        .error {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ecf0f1;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .menu-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .menu-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .menu-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .menu-item input {
+            flex: 1;
+        }
+        
+        .menu-item input[type="number"] {
+            max-width: 150px;
+        }
+        
+        .add-item-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+        
+        .add-item-btn:hover {
+            background: #2980b9;
+        }
+        
+        .remove-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .info-box {
+            background: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🍽️ Register Your Restaurant</h1>
+        <p class="subtitle">Join ChefBot and automate your WhatsApp orders with AI</p>
+        
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+        
+        <div class="info-box">
+            <strong>💡 How it works:</strong> Fill in your restaurant details and menu. After registration, you'll get instructions to connect your WhatsApp Business account. Once connected, ChefBot will automatically handle customer inquiries 24/7!
+        </div>
+        
+        <form method="POST" action="/register">
+            <div class="form-group">
+                <label for="name">Restaurant Name *</label>
+                <input type="text" id="name" name="name" required placeholder="e.g., Mama's Kitchen">
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Brief description of your restaurant"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="contact">Contact Phone</label>
+                <input type="tel" id="contact" name="contact" placeholder="+234 XXX XXX XXXX">
+            </div>
+            
+            <div class="form-group">
+                <label for="delivery_time">Delivery Time</label>
+                <input type="text" id="delivery_time" name="delivery_time" value="30-45 minutes" placeholder="e.g., 30-45 minutes">
+            </div>
+            
+            <div class="form-group">
+                <label for="currency">Currency</label>
+                <select id="currency" name="currency">
+                    <option value="₦">₦ Nigerian Naira</option>
+                    <option value="$">$ US Dollar</option>
+                    <option value="€">€ Euro</option>
+                    <option value="£">£ British Pound</option>
+                </select>
+            </div>
+            
+            <div class="menu-section">
+                <h3>📋 Your Menu</h3>
+                <div id="menu-items">
+                    <div class="menu-item">
+                        <input type="text" name="menu_item[]" placeholder="Item name (e.g., Jollof Rice)" required>
+                        <input type="number" name="menu_price[]" placeholder="Price" required min="0">
+                    </div>
+                    <div class="menu-item">
+                        <input type="text" name="menu_item[]" placeholder="Item name">
+                        <input type="number" name="menu_price[]" placeholder="Price" min="0">
+                    </div>
+                    <div class="menu-item">
+                        <input type="text" name="menu_item[]" placeholder="Item name">
+                        <input type="number" name="menu_price[]" placeholder="Price" min="0">
+                    </div>
+                </div>
+                <button type="button" class="add-item-btn" onclick="addMenuItem()">+ Add More Items</button>
+            </div>
+            
+            <button type="submit" class="submit-btn">🚀 Register Restaurant</button>
+        </form>
+    </div>
+    
+    <script>
+        function addMenuItem() {
+            const container = document.getElementById('menu-items');
+            const newItem = document.createElement('div');
+            newItem.className = 'menu-item';
+            newItem.innerHTML = `
+                <input type="text" name="menu_item[]" placeholder="Item name">
+                <input type="number" name="menu_price[]" placeholder="Price" min="0">
+                <button type="button" class="remove-btn" onclick="this.parentElement.remove()">✕</button>
+            `;
+            container.appendChild(newItem);
+        }
+    </script>
+</body>
+</html>

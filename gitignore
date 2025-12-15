@@ -1,0 +1,5 @@
+**Contents of `.gitignore`:**
+.env
+__pycache__/
+.pyc
+.json

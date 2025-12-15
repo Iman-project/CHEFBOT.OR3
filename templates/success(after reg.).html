@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Successful - ChefBot</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 50px 40px;
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 5em;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #27ae60;
+            margin-bottom: 15px;
+            font-size: 2em;
+        }
+        .restaurant-id {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 1.3em;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        .info-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .info-box h3 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .info-box ol {
+            margin-left: 20px;
+            color: #34495e;
+        }
+        .info-box li {
+            margin: 8px 0;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">✅</div>
+        <h1>Registration Successful!</h1>
+        <p style="color: #7f8c8d; font-size: 1.1em; margin-bottom: 20px;">
+            Welcome to ChefBot, {{ restaurant_name }}!
+        </p>
+        
+        <div class="restaurant-id">
+            Your Restaurant ID: {{ restaurant_id }}
+        </div>
+        
+        <div class="info-box">
+            <h3>📱 Next Steps: Connect WhatsApp</h3>
+            <ol>
+                <li>Get a <strong>WhatsApp Business API</strong> account (via Meta/360dialog/Twilio)</li>
+                <li>Set webhook URL to: <code>{{ request.url_root }}webhook</code></li>
+                <li>Set verify token to: <code>chefbot_verify</code></li>
+                <li>Share your WhatsApp Phone Number ID with us</li>
+                <li>Start receiving AI-powered customer messages!</li>
+            </ol>
+        </div>
+        
+        <a href="/manage/{{ restaurant_id }}" class="btn">Manage My Restaurant</a>
+    </div>
+</body>
+</html>

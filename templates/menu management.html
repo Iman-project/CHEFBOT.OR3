@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Restaurant - {{ restaurant.name }}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f6fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        .status-active { background: #d4edda; color: #155724; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .card h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .info-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .info-label {
+            color: #7f8c8d;
+            font-size: 0.85em;
+            margin-bottom: 5px;
+        }
+        .info-value {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        .menu-list {
+            list-style: none;
+        }
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .menu-item-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .menu-item-price {
+            color: #27ae60;
+            font-weight: 700;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #5568d3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍽️ {{ restaurant.name }}</h1>
+            <p style="color: #7f8c8d; margin-bottom: 10px;">{{ restaurant.description }}</p>
+            {% if restaurant.whatsapp_connected %}
+            <span class="status-badge status-active">✅ WhatsApp Connected</span>
+            {% else %}
+            <span class="status-badge status-pending">⏳ Pending WhatsApp Setup</span>
+            {% endif %}
+        </div>
+        
+        <div class="card">
+            <h2>📊 Restaurant Details</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Restaurant ID</div>
+                    <div class="info-value">{{ restaurant.id }}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Contact</div>
+                    <div class="info-value">{{ restaurant.contact or 'Not set' }}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Delivery Time</div>
+                    <div class="info-value">{{ restaurant.delivery_time }}</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Currency</div>
+                    <div class="info-value">{{ restaurant.currency }}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>📋 Current Menu</h2>
+            <ul class="menu-list">
+                {% for item in restaurant.menu %}
+                <li class="menu-item">
+                    <span class="menu-item-name">{{ item.item }}</span>
+                    <span class="menu-item-price">{{ item.currency }}{{ "{:,}".format(item.price) }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            <button class="btn" onclick="alert('Menu editing feature coming soon!')">✏️ Edit Menu</button>
+        </div>
+        
+        {% if not restaurant.whatsapp_connected %}
+        <div class="card" style="background: #fff3cd;">
+            <h2>⚠️ Complete WhatsApp Setup</h2>
+            <p style="color: #856404; margin-bottom: 15px;">
+                Your restaurant is registered but not connected to WhatsApp yet. Follow these steps:
+            </p>
+            <ol style="margin-left: 20px; color: #856404;">
+                <li>Get WhatsApp Business API access</li>
+                <li>Configure webhook: <code>{{ request.url_root }}webhook</code></li>
+                <li>Verify token: <code>chefbot_verify</code></li>
+                <li>Test by sending a message</li>
+            </ol>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
